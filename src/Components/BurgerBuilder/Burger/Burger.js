@@ -6,7 +6,7 @@ import Ingredient from '../Ingredient/Ingredient';
 const Burger = (props) => {
     let ingredientArr = props.ingredients.map(item => {
         let amountArr = [...Array(item.amount).keys()];
-        console.log(amountArr);
+       
         return amountArr.map(_ => {
             return <Ingredient type={item.type} key={Math.random()} />
         })
@@ -16,10 +16,10 @@ const Burger = (props) => {
         }, []);
 
     if (ingredientArr.length === 0) {
-        ingredientArr = <p>Please add some ingredients</p>;
+        ingredientArr = <p style={{textAlign: 'center'}}>Please add some ingredients</p>;
     }
 
-    console.log(ingredientArr);
+
     return (
         <div>
             <p>Burger</p>
