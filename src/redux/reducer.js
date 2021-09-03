@@ -17,6 +17,9 @@ const INITIAL_STATE = {
         { type: 'cheese', amount: 0 },
         { type: 'meat', amount: 0 },
     ],
+    orders: [],
+    orderLoading: true,
+    orderErr: false,
     totalPrice: 80,
     purchaseable: false,
 }
@@ -52,14 +55,39 @@ export const reducer = (state = INITIAL_STATE, action) => {
                 totalPrice: state.totalPrice + INGREDIENT_PRICES[action.payload],
             }
 
-            case actionTypes.UPDATE_PURCHASEABLE:
-                const sum= state.ingredients.reduce((sum,element)=>{
-                    return sum+element.amount;
-                },0)
-                return {
-                    ...state,
-                    purchaseable: sum > 0,
-                }
+        case actionTypes.UPDATE_PURCHASABLE:
+            const sum = state.ingredients.reduce((sum, element) => {
+                return sum + element.amount;
+            }, 0)
+            return {
+                ...state,
+                purchaseable: sum > 0,
+            }
+        case actionTypes.RESET_INGREDIENTS:
+            return {
+                ...state,
+                ingredients: [
+                    { type: 'salad', amount: 0 },
+                    { type: 'cheese', amount: 0 },
+                    { type: 'meat', amount: 0 },
+                ],
+                totalPrice: 80,
+                purchaseable: false,
+            }
+        case actionTypes.LOAD_ORDERS:
+            let orders = [];
+            for (let key in action.payload) {
+                console.log(action.payload[key]);
+                orders.push({
+                    ...action.payload[key],
+                    id: key,
+                })
+            }
+            return {
+                ...state,
+                orders: orders,
+                orderLoading: false,
+            }
         default:
             return state;
     }
